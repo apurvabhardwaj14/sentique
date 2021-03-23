@@ -1,0 +1,97 @@
+{% extends "blogs/base.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <div class= "content-section">
+        <form id="search" onsubmit="">
+            {% csrf_token %}
+           <div class="form-group">
+           <h1>TWITTER SENTIMENT ANALYSIS</H1>
+                <label class="mr-3 h6" for="keyword">Keyword</label>
+               <input type="text" name="keyword" id="keyword" placeholder="Enter a Keyword" required>
+            </div>
+            <div class="form-group">
+                <button class="btn btn-primary" type="submit">
+                    <div class="spinner-border spinner-border-sm text-light d-none" id="search-spinner" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                    Submit
+                </button>
+            </div>
+        </form>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div id="result" class="d-none">
+                <div class="row">
+                    <div class="col-lg-4" >
+                        Positive % - <span id="pospercent"></span>
+                    </div>
+                    <div class="col-lg-4" >
+                        Negative % - <span id="negpercent"></span>
+                    </div>
+                    <div class="col-lg-4" >
+                        Neutral % - <span id="neupercent"></span>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-lg-12"><h3>Positive Tweets</h3></div>
+                    <div class="col-lg-12">
+                        <ul  id="postweets"></ul>
+                    </div>
+                </div>
+                <div class="row">
+                     <div class="col-lg-12"><h3>Negative Tweets</h3></div>
+                    <div class="col-lg-12">
+                        <ul  id="negtweets"></ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<script>
+
+    let search = document.getElementById('search')
+    search.addEventListener('submit', function(event){
+        event.preventDefault()
+        document.getElementById('pospercent').innerHTML = ''
+        document.getElementById('negpercent').innerHTML = ''
+        document.getElementById('neupercent').innerHTML = ''
+        document.getElementById('postweets').innerHTML = ''
+        document.getElementById('negtweets').innerHTML = ''
+        document.getElementById('search-spinner').classList.remove('d-none')
+        let keyword = document.getElementById('keyword')
+
+        fetch('/searchpost/', {
+            method: "POST",
+            header: {
+                'content-type': 'application/json',
+            },
+           
+            body: JSON.stringify({
+                keyword: keyword.value
+            })
+        })
+        .then(res => res.json())
+        .then(data => {
+            console.log(data)
+            document.getElementById('result').classList.remove('d-none')
+            document.getElementById('search-spinner').classList.add('d-none')
+            document.getElementById('pospercent').innerHTML = data.positive
+            document.getElementById('negpercent').innerHTML = data.negative
+            document.getElementById('neupercent').innerHTML = data.neutral
+            let postweets = document.getElementById('postweets')
+            let negtweets = document.getElementById('negtweets')
+            data.postweets.forEach(tweet => {
+                postweets.innerHTML += '<li>' + tweet + '</li>'
+            })
+            data.negtweets.forEach(tweet => {
+                negtweets.innerHTML += '<li>' + tweet + '</li>'
+            })
+        })
+        .catch(error => console.log('error:', error))
+    })
+</script>
+{% endblock content %}
