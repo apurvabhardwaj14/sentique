@@ -1,15 +1,25 @@
 {% extends "blogs/base.html" %}
+{% load static %}
 {% block content %}
-    {% for post in posts %}
-        <article class="media content-section">
-            <div class="media-body">
-                <div class="article-metadata">
-                    <a class="mr-2" href="#">{{ post.author }}</a>
-                    <small class="text-muted">{{ post.date_posted|date:"F d, Y" }}</small>
-                </div>
-                <h2><a class="article-title" href="#">{{ post.title }}</a></h2>
-                <p class="article-content">{{ post.content }}</p>
+    <p>
+    <br>
+    With innovation's expanding abilities, Sentiment Analysis is turning into a more used tool for organizations. Online media observing tools use it to give their clients bits of knowledge about how the public feels with respect to their business, items, or subjects of interest.
+    <br>
+    <br>
+    Sentiment analysis has been utilized in more vague conditions. Facebook, for instance, experienced harsh criticism when it was found they were utilizing Sentiment Analysis to check whether they could control individuals' feelings by adjusting their algorithms to inject negative or good posts all the more oftentimes into their clients' news sources. 
+    <br>
+    <br>
+    By utilizing this cycle, they found that they could conclusively impact their clients' passionate yield by flooding their news sources with positive or negative posts. The large issue is that Facebook never educated its clients that they were important for an examination and may have troubled them now and again. 
+    <br>
+    <br>
+    However, our primary intrigue today lies in how estimation examination is utilized with online media observing devices.</p>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <img class="img-fluid" src="{% static 'blogs/images/sentiment.png' %}" alt="Sentiment Analysis"/>
             </div>
-        </article>
-    {% endfor %}
+            <div class="col-lg-8"></div>
+        </div>
+    </div>
 {% endblock content %}
