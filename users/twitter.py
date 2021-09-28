@@ -1,7 +1,7 @@
 import re  # regular expression
 import tweepy  # Twitter API Module
 # Authentication using twitter developer credentials
-from tweepy import OAuthHandler
+from tweepy.auth import OAuthHandler
 from textblob import TextBlob  # text analysis module
 
 
@@ -64,7 +64,7 @@ class TwitterClient(object):
             # call twitter api to fetch tweets
             fetched_tweets = self.api.search(q=query, count=count)
 
-            print(fetched_tweets)
+            # print(fetched_tweets)
 
             # parsing tweets one by one
             for tweet in fetched_tweets:

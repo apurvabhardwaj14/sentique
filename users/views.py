@@ -8,6 +8,7 @@ from django.views.decorators.csrf import csrf_exempt
 
 from users.twitter import twitter
 from users.parseLink import parseLink
+from users.parseText import parseText
 
 
 
@@ -31,6 +32,14 @@ def searchpost(request):
         body_unicode = request.body.decode('utf-8')
         body = json.loads(body_unicode)
         responseObj = twitter(body['keyword'], 0)
+        return JsonResponse(responseObj)
+
+@csrf_exempt
+def searchtext(request):
+    if request.method == "POST":
+        body_unicode = request.body.decode('utf-8')
+        body = json.loads(body_unicode)
+        responseObj = parseText(body['text'])
         return JsonResponse(responseObj)
 
 
